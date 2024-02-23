@@ -1,0 +1,117 @@
+{
+  "type": "record",
+  "name": "TransactionEvent",
+  "namespace": "com.kafka.demo.avro.model",
+  "doc": "Transaction event",
+  "fields": [
+    {
+      "name": "header",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "TransactionEventHeader",
+          "doc": "Default information",
+          "fields": [
+            {
+              "name": "id",
+              "type": {
+                "type": "string",
+                "avro.java.string": "String"
+              },
+              "doc": "GUID (UUID) of the event making it globally identifiable"
+            },
+            {
+              "name": "sourceSystem",
+              "type": {
+                "type": "string",
+                "avro.java.string": "String"
+              },
+              "doc": "Source system which created the event"
+            },
+            {
+              "name": "createdAt",
+              "type": "long",
+              "doc": "Event timestamp creation in epoch format"
+            }
+          ]
+        }
+      ],
+      "default": null
+    },
+    {
+      "name": "body",
+      "type": {
+        "type": "record",
+        "name": "TransactionEventBody",
+        "doc": "Body information of the event",
+        "fields": [
+          {
+            "name": "transactionId",
+            "type": {
+              "type": "string",
+              "avro.java.string": "String"
+            },
+            "doc": "UUID of the transaction"
+          },
+          {
+            "name": "userId",
+            "type": {
+              "type": "string",
+              "avro.java.string": "String"
+            },
+            "doc": "UUID of the user that initiated the transaction"
+          },
+          {
+            "name": "transactionType",
+            "type": {
+              "type": "enum",
+              "name": "TransactionType",
+              "symbols": [
+                "INSTANT_PAYMENT",
+                "SEPA",
+                "CREDIT_CARD"
+              ]
+            },
+            "doc": "Transaction type. Future values might be added"
+          },
+          {
+            "name": "date",
+            "type": "long",
+            "doc": "The timestamp when the transaction event was generated"
+          },
+          {
+            "name": "amount",
+            "type": "long",
+            "doc": "The value of the transaction"
+          },
+          {
+            "name": "currency",
+            "type": [
+              "null",
+              {
+                "type": "string",
+                "avro.java.string": "String"
+              }
+            ],
+            "doc": "Transaction currency",
+            "default": null
+          },
+          {
+            "name": "description",
+            "type": [
+              "null",
+              {
+                "type": "string",
+                "avro.java.string": "String"
+              }
+            ],
+            "doc": "Description of the transaction purpose",
+            "default": null
+          }
+        ]
+      },
+      "doc": "body of transaction event"
+    }
+  ]
+}
