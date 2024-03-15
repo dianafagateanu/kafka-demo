@@ -74,5 +74,27 @@ services:
     extra_hosts:
       - "moby:127.0.0.1"
       - "localhost:127.0.0.1"
+  kafka-demo-api:
+    networks:
+      - kafka-demo
+    build:
+      context: ./kafka-demo-app/
+    volumes:
+      - type: bind
+        source: ../target/kafka-demo-app-0.0.1-SNAPSHOT.jar
+        target: /var/kafka-demo-app/lib/kafka-demo-app-0.0.1-SNAPSHOT.jar
+      - type: bind
+        source: ./kafka-demo-app/docker-entrypoint.sh
+        target: /docker-entrypoint.sh
+      - ../src/main/resources:/var/kafka-demo-app/conf
+    ports:
+      - "8084:8084"
+      - "5005:5005"
+      - "10080:10080"
+    depends_on:
+      - zookeeper
+      - kafka
+      - schema-registry
+
 networks:
   kafka-demo:

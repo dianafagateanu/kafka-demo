@@ -1,6 +1,6 @@
-package com.kafka.demo.consumer;
+package com.kafka.demo.config;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Configuration
 @EnableKafka
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class KafkaConsumerConfig {
 
     @Bean
@@ -23,10 +23,9 @@ public class KafkaConsumerConfig {
         return factory;
     }
 
-    //TODO replace it as it is deprecated
-    @Bean
-    public ConsumerFactory<String, String> defaultConsumerFactory(KafkaProperties kafkaProperties) {
-        Map<String, Object> consumerProps = kafkaProperties.buildConsumerProperties();
+    //TODO take advantage of Spring Boot SSL Bundles and see if we can remove kafka producer and consumer SSL configs
+    private ConsumerFactory<String, String> defaultConsumerFactory(KafkaProperties kafkaProperties) {
+        Map<String, Object> consumerProps = kafkaProperties.buildConsumerProperties(null);
         return new DefaultKafkaConsumerFactory<>(consumerProps);
     }
 }
