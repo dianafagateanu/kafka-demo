@@ -1,11 +1,8 @@
-FROM openjdk:17-alpine
+FROM openjdk:21-slim
 
 ENV HOSTNAME "localhost"
 
-RUN apk update
-RUN apk upgrade
-
-RUN apk add --update curl
+RUN apt update
 
 # Clean APK cache
 RUN rm -rf /var/cache/apk/*
